@@ -35,22 +35,22 @@ spec:
               value: production
 
             - name: DATABASE_TYPE
-              value: {{DATABASE_TYPE}}
+              value: "{{DATABASE_TYPE}}"
 
             - name: DATABASE_NAME
-              value: {{INTEGRATIONS_DB_NAME}}
+              value: "{{INTEGRATIONS_DB_NAME}}"
 
             - name: DATABASE_HOST
-              value: {{DATABASE_HOST}}
+              value: "{{DATABASE_HOST}}"
 
             - name: DATABASE_PORT
-              value: {{DATABASE_PORT}}
+              value: "{{DATABASE_PORT}}"
 
             - name: DATABASE_USERNAME
-              value: {{INTEGRATIONS_DB_USER}}
+              value: "{{INTEGRATIONS_DB_USER}}"
 
             - name: DATABASE_PASSWORD
-              value: {{INTEGRATIONS_DB_PASS}}
+              value: "{{INTEGRATIONS_DB_PASS}}"
 
             - name: FRONTEND_DOMAIN
               value: http://dev.duretrip.com
@@ -80,7 +80,7 @@ spec:
               value: "integration_queue"
 
             - name: APP_PORT
-              value: 8009
+              value: "{{APP_PORT}}"
 
 ---
 apiVersion: v1
