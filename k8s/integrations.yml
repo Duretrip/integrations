@@ -80,7 +80,7 @@ spec:
               value: "integration_queue"
 
             - name: APP_PORT
-              value: "{{APP_PORT}}"
+              value: 8009
 
 ---
 apiVersion: v1
