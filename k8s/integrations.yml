@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: integrations-app
+  labels:
+    app: integrations-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: integrations-app
+  template:
+    metadata:
+      labels:
+        app: integrations-app
+    spec:
+      containers:
+        - name: integrations-app
+          image: duretrip/integrations:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8009
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "0.2"
+            limits:
+              memory: "1Gi"
+              cpu: "0.5"
+          env:
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=4096"
+
+            - name: NODE_ENV
+              value: production
+
+            - name: DATABASE_TYPE
+              value: {{DATABASE_TYPE}}
+
+            - name: DATABASE_NAME
+              value: {{INTEGRATIONS_DB_NAME}}
+
+            - name: DATABASE_HOST
+              value: {{DATABASE_HOST}}
+
+            - name: DATABASE_PORT
+              value: {{DATABASE_PORT}}
+
+            - name: DATABASE_USERNAME
+              value: {{INTEGRATIONS_DB_USER}}
+
+            - name: DATABASE_PASSWORD
+              value: {{INTEGRATIONS_DB_PASS}}
+
+            - name: FRONTEND_DOMAIN
+              value: http://dev.duretrip.com
+
+            - name: BACKEND_DOMAIN
+              value: http://dev-api.duretrip.com
+
+            - name: APP_NAME
+              value: Duretrip
+
+            - name: API_PREFIX
+              value: ""
+
+            - name: APP_FALLBACK_LANGUAGE
+              value: en
+
+            - name: APP_HEADER_LANGUAGE
+              value: x-custom-lang
+
+            - name: RABBITMQ_CONECTION_URL
+              value: amqp://{{RABBITMQ_USERNAME}}:{{RABBITMQ_PASSWORD}}@{{RABBITMQ_HOST}}:{{RABBITMQ_PORT}}
+
+            - name: RABBITMQ_API_GATEWAY_QUEUE
+              value: api-gateway-queue
+
+            - name: RABBITMQ_INTEGRATIONS_QUEUE
+              value: integration_queue
+
+            - name: APP_PORT
+              value: "{{APP_PORT}}"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: integrations
+spec:
+  selector:
+    app: integrations-app
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8009
+      targetPort: 8009
+      protocol: TCP

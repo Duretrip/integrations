@@ -1,0 +1,106 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
+
+jobs:
+
+  create-image-and-push-to-dockerhub:
+    name: Create Image and Push to Dockerhub
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+        continue-on-error: true
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      
+      - name: Replace placeholders Image in YML script
+        run: |
+          sed -i "s|image: duretrip/integrations:latest|image: duretrip/integrations:${{ github.sha }}|" services/integrations/docker-compose.yaml
+
+      - name: Build Docker images
+        run: |
+          docker-compose -f services/integrations/docker-compose.yaml build
+          docker-compose -f services/integrations/docker-compose.yaml push
+        working-directory: .
+
+
+  setup-and-deploy-to-cluster-main:
+    needs: [create-image-and-push-to-dockerhub]
+
+    name: Setup and Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    env:
+      INTEGRATIONS_DB_NAME: ${{ secrets.INTEGRATIONS_DB_NAME }}
+      INTEGRATIONS_DB_USER: ${{ secrets.INTEGRATIONS_DB_USER }}
+      INTEGRATIONS_DB_PASS: ${{ secrets.INTEGRATIONS_DB_PASS }}
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
+      APP_PORT: ${{ secrets.APP_PORT }}
+      RABBITMQ_USERNAME: ${{ secrets.RABBITMQ_USERNAME }}
+      RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
+      RABBITMQ_HOST: ${{ secrets.RABBITMQ_HOST }}
+      RABBITMQ_PORT: ${{ secrets.RABBITMQ_PORT }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GKE_SA }}
+    - name: Get GKE Credentials
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: ${{ secrets.GKE_DEV_CLUSTER_NAME }}
+        location: ${{ secrets.GKE_DEV_CLUSTER_ZONE }}
+
+    - name: Replace placeholders in YML script
+      run: |
+          sed -i "s/{{INTEGRATIONS_DB_NAME}}/${INTEGRATIONS_DB_NAME}/g" k8s/integrations.yml
+          sed -i "s/{{INTEGRATIONS_DB_USER}}/${INTEGRATIONS_DB_USER}/g" k8s/integrations.yml
+          sed -i "s/{{INTEGRATIONS_DB_PASS}}/${INTEGRATIONS_DB_PASS}/g" k8s/integrations.yml
+          sed -i "s/{{DATABASE_HOST}}/${DATABASE_HOST}/g" k8s/integrations.yml
+          sed -i "s/{{DATABASE_PORT}}/${DATABASE_PORT}/g" k8s/integrations.yml
+          sed -i "s/{{DATABASE_TYPE}}/${DATABASE_TYPE}/g" k8s/integrations.yml
+          sed -i "s/{{APP_PORT}}/${APP_PORT}/g" k8s/integrations.yml
+          sed -i "s/{{RABBITMQ_USERNAME}}/${RABBITMQ_USERNAME}/g" k8s/integrations.yml
+          sed -i "s/{{RABBITMQ_PASSWORD}}/${RABBITMQ_PASSWORD}/g" k8s/integrations.yml
+          sed -i "s/{{RABBITMQ_HOST}}/${RABBITMQ_HOST}/g" k8s/integrations.yml
+          sed -i "s/{{RABBITMQ_PORT}}/${RABBITMQ_PORT}/g" k8s/integrations.yml
+
+    - name: Replace placeholders Image in YML script
+      run: |
+          sed -i "s|image: duretrip/integrations:latest|image: duretrip/integrations:${{ github.sha }}|" k8s/integrations.yml
+
+    - name: Deploy on the GKE
+      run: |
+        kubectl apply -f k8s/integrations.yml
+    
+       
