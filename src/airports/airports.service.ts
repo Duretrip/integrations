@@ -19,14 +19,17 @@ export class AirportsService {
   }
 
   async findAll(search: string, limit: number = 10): Promise<Airports[]> {
+    
     const queryBuilder = this.airportsRepository.createQueryBuilder('airport');
 
-    // if (search) {
+    if (search) {
       queryBuilder.where('airport.iataCode ILIKE :search OR airport.city ILIKE :search  OR airport.name ILIKE :search OR airport.country ILIKE :search', { search: `%${search}%` });
-    // }
+    }
   
     // Apply pagination to limit the number of results
-    queryBuilder.take(limit);
+    if(limit){
+      queryBuilder.take(limit);
+    }
   
     return await queryBuilder.getMany();
   }

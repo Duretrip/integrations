@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import databaseConfig from './config/database.config';
 import appConfig from './config/app.config';
 import { RabbitMQService } from './rabbitmq/rabbitmq.service';
+import { FlightModule } from './flight/flight.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { RabbitMQService } from './rabbitmq/rabbitmq.service';
         return new DataSource(options).initialize();
       },
     }),
+    FlightModule,
   ],
   controllers: [AppController],
   providers: [AppService, RabbitMQService],
