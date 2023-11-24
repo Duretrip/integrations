@@ -20,7 +20,7 @@ export class AirportsService {
 
   async findAll(search: string, limit: number = 10): Promise<Airports[]> {
     
-    const queryBuilder = this.airportsRepository.createQueryBuilder('airport');
+    const queryBuilder = this.airportsRepository.createQueryBuilder('airports');
 
     if (search) {
       queryBuilder.where('airports.iataCode ILIKE :search OR airports.city ILIKE :search  OR airports.name ILIKE :search OR airports.country ILIKE :search', { search: `%${search}%` });
