@@ -23,7 +23,7 @@ export class AirportsService {
     const queryBuilder = this.airportsRepository.createQueryBuilder('airport');
 
     if (search) {
-      queryBuilder.where('airport.iataCode ILIKE :search OR airport.city ILIKE :search  OR airport.name ILIKE :search OR airport.country ILIKE :search', { search: `%${search}%` });
+      queryBuilder.where('airports.iataCode ILIKE :search OR airports.city ILIKE :search  OR airports.name ILIKE :search OR airports.country ILIKE :search', { search: `%${search}%` });
     }
   
     // Apply pagination to limit the number of results
