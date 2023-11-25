@@ -1,18 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { FlightRequestDTO } from './dto/flight-request.dto';
 import { FlightResponseDTO } from './dto/flight-response.dto';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { FlightOffersPricingRequestDTO } from './dto/flight-price-request.dto';
 import { FlightOffersPricingResponseDTO } from './dto/flight-price-response.dto';
 import BookingRequestDto from './dto/create-booking.dto';
 import { FlightOffersPricingDto } from './dto/booking-response.dto';
+import { AmadeusService } from 'src/amadeus/amadeus.service';
+import { SabreService } from 'src/sabre/sabre.service';
 
 @Injectable()
 export class FlightService {
-  constructor() { }
+  constructor(
+    private readonly amadeusService: AmadeusService,
+    private readonly sabreService: SabreService,
+  ) {}
 
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
+    const result = []; //initialize the result array. An array of objects that contain the GDS name as a different object
+    // Call Amadeus with a timeout of 3 seconds
+
+
+    // Use the transformer util function on Amadeus response
+
+
+    // Call Sabre with a timeout of 3 seconds
+
+
+    // Use the transformer util function on Sabre response
+
+
+    // Use the sorting util function based on search params
+
+    // return response
+
+
+
     // Call the third-party API using axios or any HTTP library
     const response = await axios.post(`/shopping/flight-offers`, flightRequest, {
       baseURL: process.env.AMADEUS_API_URL, // Replace with your base URL

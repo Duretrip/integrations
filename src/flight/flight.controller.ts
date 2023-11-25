@@ -2,8 +2,7 @@ import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { FlightService } from './flight.service';
 import { FlightRequestDTO } from './dto/flight-request.dto';
 import { FlightResponseDTO } from './dto/flight-response.dto';
-import { RabbitMQService } from '../rabbitmq/rabbitmq.service'
-import { ApiBody, ApiQuery } from '@nestjs/swagger';
+import { ApiBody } from '@nestjs/swagger';
 import { FlightOffersPricingRequestDTO } from './dto/flight-price-request.dto';
 import BookingRequestDto from './dto/create-booking.dto';
 const amqplib = require('amqplib/callback_api');
@@ -12,7 +11,6 @@ const amqplib = require('amqplib/callback_api');
 export class FlightController {
   constructor(
     private readonly flightService: FlightService,
-    private readonly rabbitMQService: RabbitMQService
   ) { }
 
   async onModuleInit() {

@@ -10,6 +10,8 @@ import databaseConfig from './config/database.config';
 import appConfig from './config/app.config';
 import { RabbitMQService } from './rabbitmq/rabbitmq.service';
 import { FlightModule } from './flight/flight.module';
+import { SabreModule } from './sabre/sabre.module';
+import { AmadeusModule } from './amadeus/amadeus.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { FlightModule } from './flight/flight.module';
       envFilePath: ['.env'],
     }),
     AirportModule,
+    AmadeusModule,
+    SabreModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
       dataSourceFactory: async (options: DataSourceOptions) => {

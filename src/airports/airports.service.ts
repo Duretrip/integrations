@@ -11,7 +11,7 @@ export class AirportsService {
   constructor(
     @InjectRepository(Airports)
     private readonly airportsRepository: Repository<Airports>,
-  ) {}
+  ) { }
 
   create(createAirportDto: CreateAirportDto) {
     const airport = this.airportsRepository.create(createAirportDto);
@@ -19,24 +19,30 @@ export class AirportsService {
   }
 
   async findAll(search: string, limit: number = 10): Promise<Airports[]> {
-    
-    const queryBuilder = this.airportsRepository.createQueryBuilder('airports');
 
-    if (search) {
-      queryBuilder.where('airports.iataCode ILIKE :search OR airports.city ILIKE :search  OR airports.name ILIKE :search OR airports.country ILIKE :search', { search: `%${search}%` });
+    try {
+
+      const queryBuilder = this.airportsRepository.createQueryBuilder('airports');
+
+      if (search) {
+        queryBuilder.where('airports.iataCode ILIKE :search OR airports.city ILIKE :search  OR airports.name ILIKE :search OR airports.country ILIKE :search', { search: `%${search}%` });
+      }
+
+      // Apply pagination to limit the number of results
+      if (limit) {
+        queryBuilder.take(limit);
+      }
+
+      return await queryBuilder.getMany();
+
+    } catch (error) {
+      console.log({ error });
     }
-  
-    // Apply pagination to limit the number of results
-    if(limit){
-      queryBuilder.take(limit);
-    }
-  
-    return await queryBuilder.getMany();
   }
 
   findOne(id: number) {
     return this.airportsRepository.findOne({
-      where:{
+      where: {
         id
       }
     });
