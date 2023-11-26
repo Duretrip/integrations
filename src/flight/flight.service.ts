@@ -15,7 +15,7 @@ export class FlightService {
   constructor(
     private readonly amadeusService: AmadeusService,
     private readonly sabreService: SabreService,
-  ) {}
+  ) { }
 
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
     const result = []; //initialize the result array. An array of objects that contain the GDS name as a different object
@@ -53,7 +53,10 @@ export class FlightService {
 
   async getFlightPrice(requestDto: FlightOffersPricingRequestDTO): Promise<FlightOffersPricingResponseDTO> {
     try {
-      const response = await axios.post(`/shopping/flight-offers/pricing?forceClass=false`, requestDto, {
+      const response = await axios.post(`/shopping/flight-offers/pricing?forceClass=false`, {
+        'type': 'flight-offers-pricing',
+        'flightOffers': requestDto
+      }, {
         baseURL: process.env.AMADEUS_API_URL, // Replace with your base URL
         headers: {
           'Content-Type': 'application/json',

@@ -33,7 +33,10 @@ export class AmadeusService {
 
   async getFlightPrice(requestDto: FlightOffersPricingRequestDTO): Promise<FlightOffersPricingResponseDTO> {
     try {
-      const response = await this.axiosInstance.post(`/shopping/flight-offers/pricing?forceClass=false`, requestDto);
+      const response = await this.axiosInstance.post(`/shopping/flight-offers/pricing?forceClass=false`, {
+        'type': 'flight-offers-pricing',
+        'flightOffers': requestDto
+      });
 
       return response.data;
     } catch (error) {
