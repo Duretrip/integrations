@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
+import { FlightRequestDTO } from './dto/flight-request.dto';
+import { FlightResponseDTO } from './dto/flight-response.dto';
 
 @Injectable()
 export class SabreService {
@@ -7,22 +9,31 @@ export class SabreService {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: process.env.AMADEUS_API_URL,
+      baseURL: process.env.SABRE_API_URL,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': process.env.AMADEUS_API_TOKEN,
+        'Authorization': process.env.SABRE_API_SECRET,
       },
     });
   }
+  
 
-  // async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
-  //   // Call the third-party API using axios or any HTTP library
-  //   const response = await this.axiosInstance.post(`/shopping/flight-offers`, flightRequest);
+  async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
+    // Call the third-party API using axios or any HTTP library
+    const {originLocationCode, destinationLocationCode, departureDateTimeRange : {date, }} = flightRequest.originDestinations[0];
+    const response = await this.axiosInstance.post(`/v4/offers/shop`,
+      {
+        "fromAirportCode": originLocationCode,
+        "toAirportCode": destinationLocationCode,
+        "timeStampLeave": date,
+        // "timeStampReturn": "2018-10-08T11:00:00"
+      }
+    );
 
-  //   // Return the response data or handle it as needed
+    // Return the response data or handle it as needed
 
-  //   return response.data;
-  // }
+    return response.data;
+  }
 
   // async getFlightPrice(requestDto: FlightOffersPricingRequestDTO): Promise<FlightOffersPricingResponseDTO> {
   //   try {

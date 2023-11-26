@@ -14,7 +14,7 @@ export class AmadeusService {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: process.env.SABRE_API_URL,
+      baseURL: process.env.AMADEUS_API_URL,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': process.env.AMADEUS_API_TOKEN,

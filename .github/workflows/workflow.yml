@@ -66,6 +66,8 @@ jobs:
       RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
       RABBITMQ_HOST: ${{ secrets.RABBITMQ_HOST }}
       RABBITMQ_PORT: ${{ secrets.RABBITMQ_PORT }}
+      AMADEUS_API_TOKEN: ${{ secrets.AMADEUS_API_TOKEN }}
+      AMADEUS_API_URL: ${{ secrets.AMADEUS_API_URL }}
 
     steps:
     - name: Checkout
@@ -94,6 +96,8 @@ jobs:
           sed -i "s/{{RABBITMQ_PASSWORD}}/${RABBITMQ_PASSWORD}/g" k8s/integrations.yml
           sed -i "s/{{RABBITMQ_HOST}}/${RABBITMQ_HOST}/g" k8s/integrations.yml
           sed -i "s/{{RABBITMQ_PORT}}/${RABBITMQ_PORT}/g" k8s/integrations.yml
+          sed -i "s/{{AMADEUS_API_TOKEN}}/${AMADEUS_API_TOKEN}/g" k8s/integrations.yml
+          sed -i "s/{{AMADEUS_API_URL}}/${AMADEUS_API_URL}/g" k8s/integrations.yml
 
     - name: Replace placeholders Image in YML script
       run: |

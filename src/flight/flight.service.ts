@@ -20,7 +20,11 @@ export class FlightService {
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
     const result = []; //initialize the result array. An array of objects that contain the GDS name as a different object
     // Call Amadeus with a timeout of 3 seconds
+    // const amadeusResult = await this.amadeusService.searchFlights(flightRequest);
+    // console.log({ amadeusResult: JSON.stringify(amadeusResult) });
 
+    // const sabreResult = await this.sabreService.searchFlights(flightRequest);
+    // console.log({ sabreResult: JSON.stringify(sabreResult) });
 
     // Use the transformer util function on Amadeus response
 
