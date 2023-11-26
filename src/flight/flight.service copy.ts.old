@@ -18,52 +18,38 @@ export class FlightService {
   ) { }
 
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
-    // let result = []; //initialize the result array. An array of objects that contain the GDS name as a different object
-    // // Call Amadeus with a timeout of 3 seconds
-    // try {
-    //   const sabreResult = await this.sabreService.searchFlights(flightRequest);
-    //   console.log({ sabreResult: JSON.stringify(sabreResult) });
-    // } catch (error) {
-    //   console.log('sabre error', error);
-    // }
+    let result = []; //initialize the result array. An array of objects that contain the GDS name as a different object
+    // Call Amadeus with a timeout of 3 seconds
+    try {
+      const sabreResult = await this.sabreService.searchFlights(flightRequest);
+      console.log({ sabreResult: JSON.stringify(sabreResult) });
+    } catch (error) {
+      console.log('sabre error', error);
+    }
 
-    // try {
-    //   const amadeusResult = await this.amadeusService.searchFlights(flightRequest);
-    //   console.log({ amadeusResult: JSON.stringify(amadeusResult) });
-    //   result = amadeusResult
-    // } catch (error) {
-    //   console.log('sabre error', error);
-    // }
-    // return response.data;
-
-
-
-    // Use the transformer util function on Amadeus response
-
-
-    // Call Sabre with a timeout of 3 seconds
-
-
-    // Use the transformer util function on Sabre response
-
-
-    // Use the sorting util function based on search params
-
-    // return response
-
-
-
-    // Call the third-party API using axios or any HTTP library
-    const response = await axios.post(`/shopping/flight-offers`, flightRequest, {
-      baseURL: process.env.AMADEUS_API_URL, // Replace with your base URL
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': process.env.AMADEUS_API_TOKEN,
-      },
-    });
-
-    // Return the response data or handle it as needed
+    try {
+      const amadeusResult = await this.amadeusService.searchFlights(flightRequest);
+      console.log({ amadeusResult: JSON.stringify(amadeusResult) });
+      result = amadeusResult
+    } catch (error) {
+      console.log('sabre error', error);
+    }
     return response.data;
+
+
+
+    Use the transformer util function on Amadeus response
+
+
+    Call Sabre with a timeout of 3 seconds
+
+
+    Use the transformer util function on Sabre response
+
+
+    Use the sorting util function based on search params
+
+    return response
 
   }
 
