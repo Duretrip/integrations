@@ -83,10 +83,10 @@ spec:
               value: "8000"
 
             - name: AMADEUS_API_URL
-              value: {{AMADEUS_API_URL}}
+              value: "{{AMADEUS_API_URL}}"
 
             - name: AMADEUS_API_TOKEN
-              value: {{AMADEUS_API_TOKEN}}
+              value: "{{AMADEUS_API_TOKEN}}"
 
 ---
 apiVersion: v1
