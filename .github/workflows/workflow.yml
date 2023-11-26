@@ -61,7 +61,6 @@ jobs:
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
       DATABASE_TYPE: ${{ secrets.DATABASE_TYPE }}
-      # APP_PORT: ${{ secrets.APP_PORT }}
       RABBITMQ_USERNAME: ${{ secrets.RABBITMQ_USERNAME }}
       RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
       RABBITMQ_HOST: ${{ secrets.RABBITMQ_HOST }}
