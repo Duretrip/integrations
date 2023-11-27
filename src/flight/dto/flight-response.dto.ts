@@ -41,6 +41,7 @@ export class AggregateOffer {
   price: string;
   lastTicketingDate: string;
   duretrip_source: string;
+  provider_data: any
 }
 
 export class FlightOffer {

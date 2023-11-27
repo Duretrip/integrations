@@ -101,7 +101,8 @@ export const transform = (aggregate: AggregateResponseDto, flightOffers: Amadeus
         travelerPricings,
         price: grandTotal,
         lastTicketingDate,
-        duretrip_source
+        duretrip_source,
+        provider_data: flightOffer
       })
 
       // get from airline dictionary json file
