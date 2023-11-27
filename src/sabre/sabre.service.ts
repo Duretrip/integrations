@@ -14,21 +14,30 @@ export class SabreService {
         'Content-Type': 'application/json',
         'Authorization': process.env.SABRE_API_SECRET,
       },
+      timeout: 3000, // Set timeout to 3000 milliseconds (3 seconds)
     });
   }
   
 
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
     // Call the third-party API using axios or any HTTP library
-    const {originLocationCode, destinationLocationCode, departureDateTimeRange : {date, }} = flightRequest.originDestinations[0];
-    const response = await this.axiosInstance.post(`/v4/offers/shop`,
-      {
-        "fromAirportCode": originLocationCode,
-        "toAirportCode": destinationLocationCode,
-        "timeStampLeave": date,
-        // "timeStampReturn": "2018-10-08T11:00:00"
-      }
-    );
+    // const {originLocationCode, destinationLocationCode, departureDateTimeRange : {date}} = flightRequest.originDestinations[0];
+    // console.log({
+    //   originLocationCode,
+    //   destinationLocationCode,
+    //   date
+    // });
+    
+    // const response = await this.axiosInstance.post(`/v4/offers/shop`,
+    //   {
+    //     "fromAirportCode": originLocationCode,
+    //     "toAirportCode": destinationLocationCode,
+    //     "timeStampLeave": date,
+    //     // "timeStampReturn": "2018-10-08T11:00:00"
+    //   }
+    // );
+
+    const response = await this.axiosInstance.post(`/v4/offers/shop`, flightRequest);
 
     // Return the response data or handle it as needed
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FlightRequestDTO } from './dto/flight-request.dto';
-import { FlightResponseDTO } from './dto/flight-response.dto';
+import { AggregateOffer, AggregateResponseDto } from './dto/flight-response.dto';
 import axios, { AxiosInstance } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { FlightOffersPricingRequestDTO } from './dto/flight-price-request.dto';
@@ -9,6 +9,7 @@ import BookingRequestDto from './dto/create-booking.dto';
 import { FlightOffersPricingDto } from './dto/booking-response.dto';
 import { AmadeusService } from 'src/amadeus/amadeus.service';
 import { SabreService } from 'src/sabre/sabre.service';
+import { transform } from 'src/utils/flight-search-transformer';
 
 @Injectable()
 export class FlightService {
@@ -17,17 +18,37 @@ export class FlightService {
     private readonly sabreService: SabreService,
   ) { }
 
-  async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
-    const response = await axios.post(`/shopping/flight-offers`, flightRequest, {
-      baseURL: process.env.AMADEUS_API_URL, // Replace with your base URL
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': process.env.AMADEUS_API_TOKEN,
-      },
-    });
+  async searchFlights(flightRequest: FlightRequestDTO): Promise<AggregateResponseDto> {
+    let aggregate: AggregateResponseDto = {
+      meta: {},
+      data: [],
+      dictionary: {
+        locations: {},
+        aircraft: {},
+        currencies: {},
+        carriers: {},
+      }
+    };
 
-    // Return the response data or handle it as needed
-    return response.data;
+
+    //initialize the result array. An array of objects that contain the GDS name as a different object
+    // Call Sabre with a timeout of 3 seconds
+    // try {
+    //   const sabreResult = await this.sabreService.searchFlights(flightRequest);
+    //   console.log({ sabreResult: JSON.stringify(sabreResult) });
+    // } catch (error) {
+    //   console.log('sabre error', error);
+    // }
+
+    try {
+      const amadeusResult = await this.amadeusService.searchFlights(flightRequest);
+      const amadeusData = amadeusResult.data;
+      transform(aggregate, amadeusData, 'amadeus')
+    } catch (error) {
+      console.log('amadeus error', error);
+    }
+
+    return aggregate;
 
   }
 

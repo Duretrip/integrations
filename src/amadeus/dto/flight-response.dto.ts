@@ -19,6 +19,7 @@ export class FlightResponseDTO {
     nonHomogeneous: boolean;
     oneWay: boolean;
     lastTicketingDate: string;
+    lastTicketingDateTime: string;
     numberOfBookableSeats: number;
     itineraries: Itinerary[];
     price: Price;

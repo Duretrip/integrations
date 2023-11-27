@@ -1,10 +1,10 @@
 import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { FlightService } from './flight.service';
 import { FlightRequestDTO } from './dto/flight-request.dto';
-import { FlightResponseDTO } from './dto/flight-response.dto';
 import { ApiBody } from '@nestjs/swagger';
 import { FlightOffersPricingRequestDTO } from './dto/flight-price-request.dto';
 import BookingRequestDto from './dto/create-booking.dto';
+import { AggregateResponseDto } from './dto/flight-response.dto';
 const amqplib = require('amqplib/callback_api');
 
 @Controller('flight')
@@ -56,7 +56,7 @@ export class FlightController {
   }
 
   @Post('/search')
-  async searchFlights(@Body() flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> { 
+  async searchFlights(@Body() flightRequest: FlightRequestDTO): Promise<AggregateResponseDto> { 
     return this.flightService.searchFlights(flightRequest);
   }
 

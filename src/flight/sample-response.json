@@ -1,0 +1,281 @@
+{
+  "data": {
+    "status": true,
+    "data": {
+      "meta": {
+        "count": 2
+      },
+      "flightOffers": [
+        {
+          "type": "flight-offer",
+          "id": "1",
+          "source": "GDS",
+          "instantTicketingRequired": false,
+          "nonHomogeneous": false,
+          "oneWay": false,
+          "lastTicketingDate": "2023-11-28",
+          "lastTicketingDateTime": "2023-11-28",
+          "numberOfBookableSeats": 6,
+          "itineraries": [
+            {
+              "duration": "PT15H50M",
+              "segments": [
+                {
+                  "departure": {
+                    "iataCode": "LOS",
+                    "terminal": "I",
+                    "at": "2023-11-28T15:30:00"
+                  },
+                  "arrival": {
+                    "iataCode": "KGL",
+                    "at": "2023-11-28T21:00:00"
+                  },
+                  "carrierCode": "WB",
+                  "number": "203",
+                  "aircraft": {
+                    "code": "738"
+                  },
+                  "operating": {
+                    "carrierCode": "WB"
+                  },
+                  "duration": "PT4H30M",
+                  "id": "1",
+                  "numberOfStops": 0,
+                  "blacklistedInEU": false
+                },
+                {
+                  "departure": {
+                    "iataCode": "KGL",
+                    "at": "2023-11-28T23:35:00"
+                  },
+                  "arrival": {
+                    "iataCode": "LHR",
+                    "terminal": "3",
+                    "at": "2023-11-29T06:20:00"
+                  },
+                  "carrierCode": "WB",
+                  "number": "710",
+                  "aircraft": {
+                    "code": "333"
+                  },
+                  "operating": {
+                    "carrierCode": "WB"
+                  },
+                  "duration": "PT8H45M",
+                  "id": "2",
+                  "numberOfStops": 0,
+                  "blacklistedInEU": false
+                }
+              ]
+            }
+          ],
+          "price": {
+            "currency": "USD",
+            "total": "2193.80",
+            "base": "1500.00",
+            "fees": [
+              {
+                "amount": "0.00",
+                "type": "SUPPLIER"
+              },
+              {
+                "amount": "0.00",
+                "type": "TICKETING"
+              }
+            ],
+            "grandTotal": "2193.80"
+          },
+          "pricingOptions": {
+            "fareType": ["PUBLISHED"],
+            "includedCheckedBagsOnly": true
+          },
+          "validatingAirlineCodes": ["WB"],
+          "travelerPricings": [
+            {
+              "travelerId": "1",
+              "fareOption": "STANDARD",
+              "travelerType": "ADULT",
+              "price": {
+                "currency": "USD",
+                "total": "2193.80",
+                "base": "1500.00"
+              },
+              "fareDetailsBySegment": [
+                {
+                  "segmentId": "1",
+                  "cabin": "BUSINESS",
+                  "fareBasis": "POWPNGST",
+                  "class": "P",
+                  "includedCheckedBags": {
+                    "quantity": 2
+                  }
+                },
+                {
+                  "segmentId": "2",
+                  "cabin": "BUSINESS",
+                  "fareBasis": "POWPNGST",
+                  "class": "P",
+                  "includedCheckedBags": {
+                    "quantity": 2
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "flight-offer",
+          "id": "2",
+          "source": "GDS",
+          "instantTicketingRequired": false,
+          "nonHomogeneous": false,
+          "oneWay": false,
+          "lastTicketingDate": "2023-11-28",
+          "lastTicketingDateTime": "2023-11-28",
+          "numberOfBookableSeats": 1,
+          "itineraries": [
+            {
+              "duration": "PT17H55M",
+              "segments": [
+                {
+                  "departure": {
+                    "iataCode": "LOS",
+                    "terminal": "I",
+                    "at": "2023-11-28T13:40:00"
+                  },
+                  "arrival": {
+                    "iataCode": "ADD",
+                    "terminal": "2",
+                    "at": "2023-11-28T21:00:00"
+                  },
+                  "carrierCode": "ET",
+                  "number": "900",
+                  "aircraft": {
+                    "code": "77W"
+                  },
+                  "operating": {
+                    "carrierCode": "ET"
+                  },
+                  "duration": "PT5H20M",
+                  "id": "3",
+                  "numberOfStops": 0,
+                  "blacklistedInEU": false
+                },
+                {
+                  "departure": {
+                    "iataCode": "ADD",
+                    "terminal": "2",
+                    "at": "2023-11-29T01:35:00"
+                  },
+                  "arrival": {
+                    "iataCode": "LHR",
+                    "terminal": "2",
+                    "at": "2023-11-29T06:35:00"
+                  },
+                  "carrierCode": "ET",
+                  "number": "700",
+                  "aircraft": {
+                    "code": "350"
+                  },
+                  "operating": {
+                    "carrierCode": "ET"
+                  },
+                  "duration": "PT8H",
+                  "id": "4",
+                  "numberOfStops": 0,
+                  "blacklistedInEU": false
+                }
+              ]
+            }
+          ],
+          "price": {
+            "currency": "USD",
+            "total": "2311.30",
+            "base": "1725.00",
+            "fees": [
+              {
+                "amount": "0.00",
+                "type": "SUPPLIER"
+              },
+              {
+                "amount": "0.00",
+                "type": "TICKETING"
+              }
+            ],
+            "grandTotal": "2311.30"
+          },
+          "pricingOptions": {
+            "fareType": ["PUBLISHED"],
+            "includedCheckedBagsOnly": true
+          },
+          "validatingAirlineCodes": ["ET"],
+          "travelerPricings": [
+            {
+              "travelerId": "1",
+              "fareOption": "STANDARD",
+              "travelerType": "ADULT",
+              "price": {
+                "currency": "USD",
+                "total": "2311.30",
+                "base": "1725.00"
+              },
+              "fareDetailsBySegment": [
+                {
+                  "segmentId": "3",
+                  "cabin": "BUSINESS",
+                  "fareBasis": "DEYA0WNG",
+                  "class": "D",
+                  "includedCheckedBags": {
+                    "quantity": 3
+                  }
+                },
+                {
+                  "segmentId": "4",
+                  "cabin": "BUSINESS",
+                  "fareBasis": "DEYA0WNG",
+                  "class": "D",
+                  "includedCheckedBags": {
+                    "quantity": 3
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "dictionaries": {
+        "locations": {
+          "KGL": {
+            "cityCode": "KGL",
+            "countryCode": "RW"
+          },
+          "LOS": {
+            "cityCode": "LOS",
+            "countryCode": "NG"
+          },
+          "ADD": {
+            "cityCode": "ADD",
+            "countryCode": "ET"
+          },
+          "LHR": {
+            "cityCode": "LON",
+            "countryCode": "GB"
+          }
+        },
+        "aircraft": {
+          "333": "AIRBUS A330-300",
+          "350": "AIRBUS INDUSTRIE A350",
+          "738": "BOEING 737-800",
+          "77W": "BOEING 777-300ER"
+        },
+        "currencies": {
+          "USD": "US DOLLAR"
+        },
+        "carriers": {
+          "WB": "RWANDAIR",
+          "ET": "ETHIOPIAN AIRLINES"
+        }
+      }
+    }
+  }
+}

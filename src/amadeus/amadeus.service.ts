@@ -19,12 +19,16 @@ export class AmadeusService {
         'Content-Type': 'application/json',
         'Authorization': process.env.AMADEUS_API_TOKEN,
       },
+      timeout: 5000, // Set timeout to 3000 milliseconds (3 seconds)
     });
   }
 
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
     // Call the third-party API using axios or any HTTP library
-    const response = await this.axiosInstance.post(`/shopping/flight-offers`, flightRequest);
+    const response = await this.axiosInstance.post(`/shopping/flight-offers`, {
+      "currencyCode": "USD",
+      ...flightRequest
+    });
 
     // Return the response data or handle it as needed
 
