@@ -19,7 +19,7 @@ export class AmadeusService {
         'Content-Type': 'application/json',
         'Authorization': process.env.AMADEUS_API_TOKEN,
       },
-      timeout: 10000, // Set timeout to 3000 milliseconds (3 seconds)
+      timeout: 10000, // Set timeout to 3000 milliseconds
     });
   }
 
