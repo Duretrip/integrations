@@ -64,7 +64,6 @@ export class FlightService {
           'Authorization': process.env.AMADEUS_API_TOKEN,
         },
       });
-      console.log('response wa', response);
 
       return response.data;
     } catch (error) {
