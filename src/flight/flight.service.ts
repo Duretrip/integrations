@@ -43,7 +43,9 @@ export class FlightService {
     try {
       const amadeusResult = await this.amadeusService.searchFlights(flightRequest);
       const amadeusData = amadeusResult.data;
-      transform(aggregate, amadeusData, 'amadeus')
+      if (amadeusData) {
+        transform(aggregate, amadeusData, 'amadeus')
+      }
     } catch (error) {
       console.log('amadeus error', error);
     }

@@ -7,6 +7,10 @@ import { FlightOffersPricingRequestDTO } from './dto/flight-price-request.dto';
 import { FlightOffersPricingResponseDTO } from './dto/flight-price-response.dto';
 import BookingRequestDto from './dto/create-booking.dto';
 import { FlightOffersPricingDto } from './dto/booking-response.dto';
+import { HotelResponseDto } from 'src/hotels/dto/hotel-response.dto';
+import { log } from 'console';
+import { RideRequestDTO } from './dto/ride-request.dto';
+import { AmadeusRideResponseDto } from 'src/ride/dto/ride-response.dto';
 
 @Injectable()
 export class AmadeusService {
@@ -25,7 +29,7 @@ export class AmadeusService {
 
   async searchFlights(flightRequest: FlightRequestDTO): Promise<FlightResponseDTO> {
     // Call the third-party API using axios or any HTTP library
-    const response = await this.axiosInstance.post(`/shopping/flight-offers`, {
+    const response = await this.axiosInstance.post(`/v2/shopping/flight-offers`, {
       "currencyCode": "USD",
       ...flightRequest
     });
@@ -33,6 +37,49 @@ export class AmadeusService {
     // Return the response data or handle it as needed
 
     return response.data;
+  }
+
+  async searchHotels(hotelRequest): Promise<HotelResponseDto> {
+
+    const { cityCode, radius, radiusUnit, amenities, ratings, hotelSource } = hotelRequest;
+    const apiUrl = '/v1/reference-data/locations/hotels/by-city';
+    // Function to encode URI component and handle undefined values
+    const encodeQueryParam = (param, value) => (value !== undefined ? `${param}=${encodeURIComponent(value)}` : '');
+
+    // Constructing the query string
+    const queryString = [
+      encodeQueryParam('cityCode', cityCode),
+      encodeQueryParam('radius', radius),
+      encodeQueryParam('radiusUnit', radiusUnit),
+      encodeQueryParam('amenities', amenities),
+      encodeQueryParam('ratings', ratings),
+      encodeQueryParam('hotelSource', hotelSource),
+    ].filter(Boolean).join('&');
+
+    const apiRequestUrl = apiUrl + (queryString ? `?${queryString}` : '');
+
+    try {
+      const response = await this.axiosInstance.get(apiRequestUrl);
+      // Return the response data or handle it as needed
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async searchRides(rideRequest: RideRequestDTO): Promise<AmadeusRideResponseDto> {
+    const apiUrl = '/v1/shopping/transfer-offers';
+
+    try {
+      const response = await this.axiosInstance.post(apiUrl, rideRequest);
+      // Return the response data or handle it as needed
+      if (response.data.errors) {
+        return undefined
+      }
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getFlightPrice(requestDto: FlightOffersPricingRequestDTO): Promise<FlightOffersPricingResponseDTO> {
