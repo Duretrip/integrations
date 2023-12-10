@@ -102,7 +102,7 @@ export class AmadeusService {
       hotelIds, adults, checkInDate, checkOutDate, countryOfResidence, roomQuantity, priceRange, 
       currency, paymentPolicy, boardType
     } = hotelOfferRequest;
-    const apiUrl = '/v1/shopping/hotel-offers';
+    const apiUrl = '/v3/shopping/hotel-offers';
     // Function to encode URI component and handle undefined values
     const encodeQueryParam = (param, value) => (value !== undefined ? `${param}=${encodeURIComponent(value)}` : '');
 
