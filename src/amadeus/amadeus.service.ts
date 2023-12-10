@@ -11,6 +11,8 @@ import { HotelResponseDto } from 'src/hotels/dto/hotel-response.dto';
 import { log } from 'console';
 import { RideRequestDTO } from './dto/ride-request.dto';
 import { AmadeusRideResponseDto } from 'src/ride/dto/ride-response.dto';
+import { HotelOfferResponseDto } from './dto/hotel-offer-response.dto';
+import { AmadeusHotelOfferResponseDTO } from 'src/hotels/dto/amadeus-hotel-offer.dto';
 
 @Injectable()
 export class AmadeusService {
@@ -39,7 +41,7 @@ export class AmadeusService {
     return response.data;
   }
 
-  async searchHotels(hotelRequest): Promise<HotelResponseDto> {
+  async searchHotelsByCity(hotelRequest): Promise<HotelResponseDto> {
 
     const { cityCode, radius, radiusUnit, amenities, ratings, hotelSource } = hotelRequest;
     const apiUrl = '/v1/reference-data/locations/hotels/by-city';
@@ -66,6 +68,70 @@ export class AmadeusService {
       console.log(error);
     }
   }
+
+  async searchHotelsByGeoCode(hotelGeoRequest): Promise<HotelResponseDto> {
+    const { latitude, longitude, radius, radiusUnit, amenities, ratings, hotelSource } = hotelGeoRequest;
+    const apiUrl = '/v1/reference-data/locations/hotels/by-geocode';
+    // Function to encode URI component and handle undefined values
+    const encodeQueryParam = (param, value) => (value !== undefined ? `${param}=${encodeURIComponent(value)}` : '');
+
+    // Constructing the query string
+    const queryString = [
+      encodeQueryParam('latitude', latitude),
+      encodeQueryParam('longitude', longitude),
+      encodeQueryParam('radius', radius),
+      encodeQueryParam('radiusUnit', radiusUnit),
+      encodeQueryParam('amenities', amenities),
+      encodeQueryParam('ratings', ratings),
+      encodeQueryParam('hotelSource', hotelSource),
+    ].filter(Boolean).join('&');
+
+    const apiRequestUrl = apiUrl + (queryString ? `?${queryString}` : '');
+
+    try {
+      const response = await this.axiosInstance.get(apiRequestUrl);
+      // Return the response data or handle it as needed
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getHotelOffers(hotelOfferRequest): Promise<AmadeusHotelOfferResponseDTO> {
+    const { 
+      hotelIds, adults, checkInDate, checkOutDate, countryOfResidence, roomQuantity, priceRange, 
+      currency, paymentPolicy, boardType
+    } = hotelOfferRequest;
+    const apiUrl = '/v1/shopping/hotel-offers';
+    // Function to encode URI component and handle undefined values
+    const encodeQueryParam = (param, value) => (value !== undefined ? `${param}=${encodeURIComponent(value)}` : '');
+
+    // Constructing the query string
+    const queryString = [
+      encodeQueryParam('hotelIds', hotelIds),
+      encodeQueryParam('adults', adults),
+      encodeQueryParam('checkInDate', checkInDate),
+      encodeQueryParam('checkOutDate', checkOutDate),
+      encodeQueryParam('countryOfResidence', countryOfResidence),
+      encodeQueryParam('roomQuantity', roomQuantity),
+      encodeQueryParam('priceRange', priceRange),
+      encodeQueryParam('currency', currency),
+      encodeQueryParam('paymentPolicy', paymentPolicy),
+      encodeQueryParam('boardType', boardType)
+    ].filter(Boolean).join('&');
+
+    const apiRequestUrl = apiUrl + (queryString ? `?${queryString}` : '');
+
+    try {
+      const response = await this.axiosInstance.get(apiRequestUrl);
+      // Return the response data or handle it as needed
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
 
   async searchRides(rideRequest: RideRequestDTO): Promise<AmadeusRideResponseDto> {
     const apiUrl = '/v1/shopping/transfer-offers';
